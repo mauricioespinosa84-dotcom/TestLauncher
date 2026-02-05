@@ -5,6 +5,15 @@
     height: 100%;
 }
 
+.login .container.login-both {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    align-items: start;
+    justify-items: center;
+    padding: 24px;
+}
+
 .login-tabs {
     position: absolute;
     padding: 15px;
@@ -14,11 +23,25 @@
     min-width: 40%;
 }
 
+.login-both .login-tabs {
+    position: static;
+    min-width: 0;
+    width: 100%;
+    max-width: 420px;
+}
+
 .login-home,
 .login-offline,
 .login-AZauth,
 .login-AZauth-A2F {
     display: none;
+}
+
+.login-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    margin-bottom: 6px;
 }
 
 .login-text {
@@ -47,4 +70,10 @@
     width: 50%;
     padding: 0.4rem 1rem;
     margin-top: 10px;
+}
+
+.login-both .input-login .email,
+.login-both .input-login .password,
+.login-both .A2F {
+    width: 80%;
 }

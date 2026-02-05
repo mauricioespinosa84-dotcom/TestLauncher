@@ -69,7 +69,10 @@ async function addAccount(data) {
 }
 
 async function accountSelect(data) {
-    let account = document.getElementById(`${data.ID}`);
+    let accountId = typeof data === 'string' ? data : data?.ID;
+    if (!accountId) return;
+    let account = document.getElementById(`${accountId}`);
+    if (!account) return;
     let activeAccount = document.querySelector('.account-select')
 
     if (activeAccount) activeAccount.classList.toggle('account-select');

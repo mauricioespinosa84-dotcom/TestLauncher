@@ -11,21 +11,40 @@ let url = pkg.user ? `${pkg.url}/${pkg.user}` : pkg.url
 let config = `${url}/config`;
 let articles = `${url}/articles`;
 
+async function fetchJsonWithFallback(baseUrl) {
+    let res = null;
+    try {
+        res = await nodeFetch(baseUrl);
+        if (res.status === 200) return await res.json();
+    } catch (error) {
+        res = null;
+    }
+
+    try {
+        res = await nodeFetch(`${baseUrl}.json`);
+        if (res.status === 200) return await res.json();
+    } catch (error) {
+        res = null;
+    }
+
+    let code = res?.statusText || 'server not accessible';
+    throw { code, message: 'server not accessible' };
+}
+
 class Config {
     GetConfig() {
         return new Promise((resolve, reject) => {
-            nodeFetch(config).then(async config => {
-                if (config.status === 200) return resolve(config.json());
-                else return reject({ error: { code: config.statusText, message: 'server not accessible' } });
+            fetchJsonWithFallback(config).then(data => {
+                resolve(data);
             }).catch(error => {
-                return reject({ error });
-            })
+                return reject({ error: { code: error.code, message: error.message } });
+            });
         })
     }
 
     async getInstanceList() {
         let urlInstance = `${url}/instances`
-        let instances = await nodeFetch(urlInstance).then(res => res.json()).catch(err => err)
+        let instances = await fetchJsonWithFallback(urlInstance).catch(err => err)
         let instancesList = []
         instances = Object.entries(instances)
 
@@ -61,12 +80,11 @@ class Config {
             })
         } else {
             return new Promise((resolve, reject) => {
-                nodeFetch(articles).then(async config => {
-                    if (config.status === 200) return resolve(config.json());
-                    else return reject({ error: { code: config.statusText, message: 'server not accessible' } });
+                fetchJsonWithFallback(articles).then(data => {
+                    resolve(data);
                 }).catch(error => {
-                    return reject({ error });
-                })
+                    return reject({ error: { code: error.code, message: error.message } });
+                });
             })
         }
     }

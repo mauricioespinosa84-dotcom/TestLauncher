@@ -13,7 +13,11 @@ class Login {
         this.config = config;
         this.db = new database();
 
-        if (typeof this.config.online == 'boolean') {
+        if (this.config.online === 'both') {
+            this.enableDualLogin();
+            this.getMicrosoft();
+            this.getCrack();
+        } else if (typeof this.config.online == 'boolean') {
             this.config.online ? this.getMicrosoft() : this.getCrack()
         } else if (typeof this.config.online == 'string') {
             if (this.config.online.match(/^(http|https):\/\/[^ "]+$/)) {
@@ -25,6 +29,12 @@ class Login {
             document.querySelector('.cancel-home').style.display = 'none'
             changePanel('settings')
         })
+    }
+
+    enableDualLogin() {
+        let container = document.querySelector('.login .container');
+        if (!container) return;
+        container.classList.add('login-both');
     }
 
     async getMicrosoft() {
