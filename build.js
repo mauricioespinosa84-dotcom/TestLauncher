@@ -5,7 +5,7 @@ const JavaScriptObfuscator = require('javascript-obfuscator');
 const png2icons = require('png2icons');
 const { Jimp, JimpMime } = require('jimp');
 
-const { preductname } = require('./package.json');
+const { preductname, name } = require('./package.json');
 
 class Index {
     async init() {
@@ -65,7 +65,8 @@ class Index {
                 appId: preductname,
                 productName: preductname,
                 copyright: `Copyright © 2020-${new Date().getFullYear()} Luuxis`,
-                artifactName: "${productName}-${os}-${arch}.${ext}",
+                // Use package "name" to avoid spaces that break auto-updater URLs.
+                artifactName: "${name}-${os}-${arch}.${ext}",
                 extraMetadata: { main: 'app/app.js' },
                 files: ["app/**/*", "package.json", "LICENSE.md"],
                 directories: {
@@ -121,7 +122,7 @@ class Index {
                         { x: 130, y: 220 },
                         { x: 410, y: 220, type: 'link', path: '/Applications' }
                     ],
-                    artifactName: "${productName}-mac-${arch}.${ext}",
+                    artifactName: "${name}-mac-${arch}.${ext}",
                     format: "ULFO"
                 },
                 linux: {

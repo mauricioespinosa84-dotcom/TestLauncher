@@ -1,7 +1,7 @@
 {
     "name": "EventoCraft-Launcher",
     "preductname": "EventoCraft Launcher",
-    "version": "2.2.4",
+    "version": "2.2.5",
     "description": "Launcher Mincraft",
     "main": "src/app.js",
     "author": {
