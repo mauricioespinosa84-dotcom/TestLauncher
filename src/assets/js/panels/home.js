@@ -62,7 +62,7 @@ class Home {
                         <div class="news-content">
                             <div class="bbWrapper">
                                 <p>${News.content.replace(/\n/g, '</br>')}</p>
-                                <p class="news-author">Auteur - <span>${News.author}</span></p>
+                                <p class="news-author">Autor - <span>${News.author}</span></p>
                             </div>
                         </div>`
                     newsElement.appendChild(blockNews);
@@ -85,7 +85,7 @@ class Home {
                     </div>
                     <div class="news-content">
                         <div class="bbWrapper">
-                            <p>Impossible de contacter le serveur des news.</br>Merci de vérifier votre configuration.</p>
+                            <p>No se pudo contactar el servidor de noticias.</br>Revisa tu configuracion.</p>
                         </div>
                     </div>`
             newsElement.appendChild(blockNews);
@@ -206,6 +206,12 @@ class Home {
         let authenticator = await this.db.readData('accounts', configClient.account_selected)
         let options = instance.find(i => i.name == configClient.instance_select)
 
+        let loaderBuild = options?.loader?.loader_version
+        if (options?.loader?.loader_type === 'forge' && typeof loaderBuild === 'string') {
+            if (loaderBuild.includes('-forge-')) loaderBuild = loaderBuild.replace('-forge-', '-')
+            else if (loaderBuild.startsWith('forge-')) loaderBuild = loaderBuild.replace('forge-', '')
+        }
+
         let playInstanceBTN = document.querySelector('.play-instance')
         let infoStartingBOX = document.querySelector('.info-starting-game')
         let infoStarting = document.querySelector(".info-starting-game-text")
@@ -224,7 +230,7 @@ class Home {
 
             loader: {
                 type: options.loader.loader_type,
-                build: options.loader.loader_version,
+                build: loaderBuild,
                 enable: options.loader.loader_type == 'none' ? false : true
             },
 
@@ -263,14 +269,14 @@ class Home {
         });
 
         launch.on('progress', (progress, size) => {
-            infoStarting.innerHTML = `Téléchargement ${((progress / size) * 100).toFixed(0)}%`
+            infoStarting.innerHTML = `Descargando ${((progress / size) * 100).toFixed(0)}%`
             ipcRenderer.send('main-window-progress', { progress, size })
             progressBar.value = progress;
             progressBar.max = size;
         });
 
         launch.on('check', (progress, size) => {
-            infoStarting.innerHTML = `Vérification ${((progress / size) * 100).toFixed(0)}%`
+            infoStarting.innerHTML = `Verificando ${((progress / size) * 100).toFixed(0)}%`
             ipcRenderer.send('main-window-progress', { progress, size })
             progressBar.value = progress;
             progressBar.max = size;
@@ -290,7 +296,7 @@ class Home {
         launch.on('patch', patch => {
             console.log(patch);
             ipcRenderer.send('main-window-progress-load')
-            infoStarting.innerHTML = `Patch en cours...`
+            infoStarting.innerHTML = `Aplicando parche...`
         });
 
         launch.on('data', (e) => {
@@ -300,7 +306,7 @@ class Home {
             };
             new logger('Minecraft', '#36b030');
             ipcRenderer.send('main-window-progress-load')
-            infoStarting.innerHTML = `Demarrage en cours...`
+            infoStarting.innerHTML = `Iniciando...`
             console.log(e);
         })
 
@@ -311,7 +317,7 @@ class Home {
             ipcRenderer.send('main-window-progress-reset')
             infoStartingBOX.style.display = "none"
             playInstanceBTN.style.display = "flex"
-            infoStarting.innerHTML = `Vérification`
+            infoStarting.innerHTML = `Verificando`
             new logger(pkg.name, '#7289da');
             console.log('Close');
         });
@@ -320,7 +326,7 @@ class Home {
             let popupError = new popup()
 
             popupError.openPopup({
-                title: 'Erreur',
+                title: 'Error',
                 content: err.error,
                 color: 'red',
                 options: true
@@ -332,7 +338,7 @@ class Home {
             ipcRenderer.send('main-window-progress-reset')
             infoStartingBOX.style.display = "none"
             playInstanceBTN.style.display = "flex"
-            infoStarting.innerHTML = `Vérification`
+            infoStarting.innerHTML = `Verificando`
             new logger(pkg.name, '#7289da');
             console.log(err);
         });
@@ -343,7 +349,7 @@ class Home {
         let year = date.getFullYear()
         let month = date.getMonth() + 1
         let day = date.getDate()
-        let allMonth = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
+        let allMonth = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
         return { year: year, month: allMonth[month - 1], day: day }
     }
 }

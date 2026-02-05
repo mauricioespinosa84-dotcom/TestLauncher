@@ -46,8 +46,8 @@ class Login {
 
         microsoftBtn.addEventListener("click", () => {
             popupLogin.openPopup({
-                title: 'Connexion',
-                content: 'Veuillez patienter...',
+                title: 'Conexion',
+                content: 'Por favor espera...',
                 color: 'var(--color)'
             });
 
@@ -62,7 +62,7 @@ class Login {
 
             }).catch(err => {
                 popupLogin.openPopup({
-                    title: 'Erreur',
+                    title: 'Error',
                     content: err,
                     options: true
                 });
@@ -82,8 +82,8 @@ class Login {
         connectOffline.addEventListener('click', async () => {
             if (emailOffline.value.length < 3) {
                 popupLogin.openPopup({
-                    title: 'Erreur',
-                    content: 'Votre pseudo doit faire au moins 3 caractères.',
+                    title: 'Error',
+                    content: 'Tu usuario debe tener al menos 3 caracteres.',
                     options: true
                 });
                 return;
@@ -91,7 +91,7 @@ class Login {
 
             if (emailOffline.value.match(/ /g)) {
                 popupLogin.openPopup({
-                    title: 'Erreur',
+                    title: 'Error',
                     content: 'Votre pseudo ne doit pas contenir d\'espaces.',
                     options: true
                 });
@@ -102,7 +102,7 @@ class Login {
 
             if (MojangConnect.error) {
                 popupLogin.openPopup({
-                    title: 'Erreur',
+                    title: 'Error',
                     content: MojangConnect.message,
                     options: true
                 });
@@ -131,15 +131,15 @@ class Login {
 
         AZauthConnectBTN.addEventListener('click', async () => {
             PopupLogin.openPopup({
-                title: 'Connexion en cours...',
-                content: 'Veuillez patienter...',
+                title: 'Conexion en cours...',
+                content: 'Por favor espera...',
                 color: 'var(--color)'
             });
 
             if (AZauthEmail.value == '' || AZauthPassword.value == '') {
                 PopupLogin.openPopup({
-                    title: 'Erreur',
-                    content: 'Veuillez remplir tous les champs.',
+                    title: 'Error',
+                    content: 'Completa todos los campos.',
                     options: true
                 });
                 return;
@@ -149,7 +149,7 @@ class Login {
 
             if (AZauthConnect.error) {
                 PopupLogin.openPopup({
-                    title: 'Erreur',
+                    title: 'Error',
                     content: AZauthConnect.message,
                     options: true
                 });
@@ -166,15 +166,15 @@ class Login {
 
                 connectAZauthA2F.addEventListener('click', async () => {
                     PopupLogin.openPopup({
-                        title: 'Connexion en cours...',
-                        content: 'Veuillez patienter...',
+                        title: 'Conexion en cours...',
+                        content: 'Por favor espera...',
                         color: 'var(--color)'
                     });
 
                     if (AZauthA2F.value == '') {
                         PopupLogin.openPopup({
-                            title: 'Erreur',
-                            content: 'Veuillez entrer le code A2F.',
+                            title: 'Error',
+                            content: 'Ingresa el codigo A2F.',
                             options: true
                         });
                         return;
@@ -184,7 +184,7 @@ class Login {
 
                     if (AZauthConnect.error) {
                         PopupLogin.openPopup({
-                            title: 'Erreur',
+                            title: 'Error',
                             content: AZauthConnect.message,
                             options: true
                         });

@@ -1,13 +1,13 @@
 {
-    "name": "Selvania-Launcher",
-    "preductname": "Selvania Launcher",
-    "version": "2.2.1",
-    "description": "Launcher Mincraft pour le serveur Selvania",
+    "name": "EventoCraft-Launcher",
+    "preductname": "EventoCraft Launcher",
+    "version": "2.2.3",
+    "description": "Launcher Mincraft",
     "main": "src/app.js",
     "author": {
-        "name": "luuxis, Inc.",
+        "name": "ShoutoGaming, Inc.",
         "email": "contact@luuxis.fr",
-        "url": "https://github.com/luuxis"
+        "url": "https://github.com/ShoutoGaming"
     },
     "url": "https://mauricioespinosa84-dotcom.github.io/launcher-backend/launcher",
     "scripts": {
@@ -39,6 +39,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/luuxis/Selvania-Launcher.git"
+        "url": "git+https://github.com/mauricioespinosa84-dotcom/TestLauncher.git"
     }
 }
