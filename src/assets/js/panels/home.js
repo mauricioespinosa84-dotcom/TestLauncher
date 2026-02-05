@@ -204,6 +204,11 @@ class Home {
         let configClient = await this.db.readData('configClient')
         let instance = await config.getInstanceList()
         let authenticator = await this.db.readData('accounts', configClient.account_selected)
+        if (authenticator?.meta?.online === false) {
+            // Ensure offline accounts use legacy user type for proper skin/session handling
+            authenticator.meta.type = 'legacy'
+            if (!authenticator.user_properties) authenticator.user_properties = '{}'
+        }
         let options = instance.find(i => i.name == configClient.instance_select)
 
         let loaderBuild = options?.loader?.loader_version

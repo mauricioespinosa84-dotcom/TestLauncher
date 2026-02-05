@@ -3,6 +3,7 @@
  * Luuxis License v1.0 (voir fichier LICENSE pour les détails en FR/EN)
  */
 const { AZauth, Mojang } = require('minecraft-java-core');
+const crypto = require('crypto');
 const { ipcRenderer } = require('electron');
 
 import { popup, database, changePanel, accountSelect, addAccount, config, setStatus } from '../utils.js';
@@ -98,17 +99,8 @@ class Login {
                 return;
             }
 
-            let MojangConnect = await Mojang.login(emailOffline.value);
-
-            if (MojangConnect.error) {
-                popupLogin.openPopup({
-                    title: 'Error',
-                    content: MojangConnect.message,
-                    options: true
-                });
-                return;
-            }
-            await this.saveData(MojangConnect)
+            let offlineAccount = this.createOfflineAccount(emailOffline.value);
+            await this.saveData(offlineAccount)
             popupLogin.closePopup();
         });
     }
@@ -225,6 +217,26 @@ class Login {
         await addAccount(account);
         await accountSelect(account);
         changePanel('home');
+    }
+
+    createOfflineAccount(username) {
+        // Offline UUID must be deterministic: UUIDv3 of "OfflinePlayer:<name>"
+        const md5 = crypto.createHash('md5').update(`OfflinePlayer:${username}`, 'utf8').digest();
+        md5[6] = (md5[6] & 0x0f) | 0x30; // version 3
+        md5[8] = (md5[8] & 0x3f) | 0x80; // variant RFC 4122
+        const hex = Array.from(md5).map(b => b.toString(16).padStart(2, '0')).join('');
+
+        return {
+            access_token: hex,
+            client_token: hex,
+            uuid: hex,
+            name: username,
+            user_properties: '{}',
+            meta: {
+                online: false,
+                type: 'legacy'
+            }
+        };
     }
 }
 export default Login;
